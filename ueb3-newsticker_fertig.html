@@ -1,0 +1,120 @@
+﻿<!doctype html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script src="jquery-3.3.1.min.js"></script>
+	<script>
+
+		var news1, news2, news3, news4;
+		var news1anz, news2anz, news3anz, news4anz;
+		var pos = 220;
+
+		function fuellen() {
+
+			news1 = 'Der frühere Flüchtlingskoordinator des Bundes, Christian Konrad, hat mit Mitstreitern eine Allianz gegründet. „Menschen.Würde.Österreich“ soll Initiativen, NGOs und Einzelpersonen, die sich im Integrationsbereich engagieren, mehr öffentliches Gehör verschaffen. Außerdem will man auf die ÖVP-FPÖ-Bundesregierung einwirken, um Pläne noch einmal zu überdenken. ';
+			news2 = '  US-Präsident Donald Trump will den Export bewaffneter Drohnen Insidern zufolge erleichtern. Vor allem die Hürden für den Verkauf kleinerer Drohnen mit weniger Raketen und kürzeren Reichweiten als die größeren Typen wie der Predator sollen gesenkt werden.  '
+			news3 = 'Auf 30 Eckpunkte habe man sich laut ÖVP in den Koalitionsverhandlungen geeinigt, der Pakt ist 70 Seiten stark und wird um 17.00 Uhr dem ÖVP-Parteivorstand präsentiert. Zur gleichen Zeit informieren auch die Grünen das Verhandlungsergebnis parteiintern.'
+			news4 = 'Laut dem aktuellen Waldbericht des WWF sind seit 1990 fast 2,4 Millionen Quadratkilometer Naturwald verschwunden. Bis 2030 könnte Wald im Ausmaß der 20-fachen Fläche Österreichs verloren gehen, wenn die dramatischen Entwicklungen nicht gestoppt werden, hieß es in einer Aussendung.'
+			news1anz = news1.slice(0,220);
+			news2anz = news2.slice(0,205);
+			news3anz = news3.slice(0,205);
+			news4anz = news4.slice(0,205);
+			document.getElementById('news1').value = news1anz;
+			document.getElementById('news2').value = news2anz;
+			document.getElementById('news3').value = news3anz;
+			document.getElementById('news4').value = news4anz;
+			}
+
+		function verschieben() {
+
+			var neueszeichen;
+				pos = pos + 1;
+				if(pos == news1.length)
+					pos = 0;
+				neueszeichen = news1.slice(pos,pos + 1);
+				news1anz = news1anz.slice(1,205);
+				news1anz = news1anz + neueszeichen;
+				document.getElementById('news1').value = news1anz;
+				//console.log(number(pos=0));
+				if(pos == news2.length)
+					pos = 0;
+				neueszeichen = news2.slice(pos,pos + 1);
+				news2anz = news2anz.slice(1,206);
+				news2anz = news2anz + neueszeichen;
+				document.getElementById('news2').value = news2anz;
+				if(pos == news3.length)
+					pos = 0;
+				neueszeichen = news3.slice(pos,pos + 1);
+				news3anz = news3anz.slice(1,203);
+				news3anz = news3anz + neueszeichen;
+				document.getElementById('news3').value = news3anz;
+				if(pos == news4.length)
+					pos = 0;
+				neueszeichen = news4.slice(pos,pos + 1);
+				news4anz = news4anz.slice(1,198);
+				news4anz = news4anz + neueszeichen;
+				document.getElementById('news4').value = news4anz;
+
+		}
+			window.onload = function() {
+				var z, zschieber = 100;
+				z = document.getElementById('tempo').value;
+				fuellen();
+
+				$('#geschw').on('change', function(){
+					zschieber = $( this ).val();
+					console.log( zschieber );
+					clearInterval(t);
+					t =	window.setInterval(function(){verschieben()},zschieber);
+				});
+			var t =	window.setInterval(function(){verschieben()},100);
+				$( 'input' )
+					.on( 'mouseover', function( ) {
+				clearInterval(t);
+			//	$(this).css({display:'none'});
+				$('#news1').removeClass('langerText');
+				$('#news1').addClass('still');
+					} )
+
+					.on('mouseout', function(){
+						var t =	window.setInterval(function(){verschieben()},zschieber);
+								$( 'input' ).on( 'mouseover', function( ) {
+					clearInterval(t);
+					$('#news1').removeClass('langerText');
+					$('#news1').addClass('still');
+						} )
+						$('#news1').removeClass('still');
+						$('#news1').addClass('langerText');
+
+					});
+
+			}
+
+	</script>
+	<style>
+	h1 {font-size: 70px; letter-spacing: 4px}
+	form {background-color: rgba(70,120,40,0.2); width: 100%; border: solid}
+.langerText {width:100%; }
+.still {width:70%; fill: 'green';}
+.kleinerText { height: auto; width:80%; }
+input still {border:5px solid #000; margin:1em 0; }
+input {border:1px solid #000; margin:1em 0; }
+	</style>
+</head>
+<body>
+	<form>
+<h1>Aktuelle News</h1>
+<div id="zeilen">
+<input type="text" id="news1" class="langerText"><br><br>
+<input type="text" id="news2" class="kleinerText"><br><br>
+<input type="text" id="news3" class="langerText"><br><br>
+<input type="text" id="news4" class="kleinerText"><br><br>
+</div>
+<div>
+	<input type="text" id="tempo">
+<label>Ändere Geschwindigkeit</label><br><input type="range" max="500" min="40" id="geschw">
+</div>
+</form>
+</body>
+</html>
